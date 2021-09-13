@@ -9,12 +9,17 @@ jobs:
 
       - uses: borales/actions-yarn@v2.3.0
         with:
-          cmd: install # will run `yarn install` command
+          cmd: install
+
       - uses: borales/actions-yarn@v2.3.0
         with:
-          cmd: build # will run `yarn build` command
+          cmd: test:unit
 
-      - name: Release and Deploy
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: build
+
+      - name: Deploy to Github Pages
         uses: JamesIves/github-pages-deploy-action@4.1.2
         if: github.ref == 'refs/heads/main'
         with:
