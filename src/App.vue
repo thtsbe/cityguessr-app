@@ -1,5 +1,6 @@
 <template>
   <div id="nav">
+    <router-link to="/register">Sign Up</router-link> |
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/Scores">Scores</router-link>
