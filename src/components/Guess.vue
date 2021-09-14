@@ -3,20 +3,21 @@
       id="map"
       :api-key="apiKey"
       :center="center"
-      :zoom="10"
+      :zoom="11"
       minZoom="10"
       :disableDefaultUi="true"
       :mapTypeId="mapTypeId">
     <Marker :options="{ position: center }"></Marker>
   </GoogleMap>
   <div class="selection">
-    <CityChoice
+    <div
         class="city-choice"
         v-for="option in location.options"
         :key="option.id"
-        :option="option.city"
+      >
+      <CityChoice  :option="option.city"
         @selectCity="selectCity(option.id)"
-    ></CityChoice>
+    ></CityChoice></div>
   </div>
 </template>
 
@@ -67,16 +68,20 @@ export default defineComponent({
 <style scoped lang="scss">
 #map {
   width: 100vw;
-  height: 60vh;
+  height: calc(100vh - 7px);
 }
 
 .selection {
-  float: left;
-  height: 20vh;
+  bottom: 15px;
+  max-height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  bottom: 15px;
 
   .city-choice {
     width: 50vw;
-    height: 10vh;
+    height: 50px;
   }
 }
 </style>
