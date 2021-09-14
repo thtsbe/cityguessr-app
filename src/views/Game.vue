@@ -1,5 +1,11 @@
 <template>
   <Guess :location="location" @selectCity="selectCity($event)"></Guess>
+  <transition name="fade">
+    <div class="result">
+      <div class="correct" v-if="correct"></div>
+      <div class="incorrect" v-if="!correct"></div>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -18,14 +24,17 @@ export default defineComponent({
 
   setup() {
     const location = ref({} as GuessDto);
+    const correct = ref(true);
 
     const getNewLocation = async () => {
-      location.value = (await axios.get("http://localhost:8080/guess")).data as GuessDto;
+      location.value = (await axios.get("http://localhost:8080/guess"))
+        .data as GuessDto;
     };
 
     return {
       getNewLocation,
       location,
+      correct,
     };
   },
 
@@ -36,8 +45,12 @@ export default defineComponent({
         cityId: id,
       });
 
-      console.log("Result is ", this.isResultCorrect(data));
-      this.getNewLocation();
+      if (this.isResultCorrect(data)) {
+        this.getNewLocation();
+        this.correct = true;
+      } else {
+        this.correct = false;
+      }
     },
 
     isResultCorrect(guessResponse: GuessResponseDto) {
@@ -50,3 +63,27 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+.result {
+  position: absolute;
+  height: 7px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  & .correct,
+  & .incorrect {
+    width: 100%;
+    height: 100%;
+  }
+
+  & .correct {
+    background-color: green;
+  }
+
+  & .incorrect {
+    background-color: red;
+  }
+}
+</style>
