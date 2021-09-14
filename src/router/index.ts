@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import Scores from "../views/Scores.vue";
-import Registration from "../views/Registration.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,11 +12,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/scores",
     name: "Scores",
     component: Scores,
-  },
-  {
-    path: "/register",
-    name: "Registration",
-    component: Registration,
   },
   {
     path: "/about",
@@ -32,6 +26,12 @@ const routes: Array<RouteRecordRaw> = [
     path: "/game",
     name: "Game",
     component: () => import(/* webpackChunkName: "game" */ "../views/Game.vue"),
+  },
+  {
+    path: "/register",
+    name: "Registration",
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/Registration.vue"),
   },
 ];
 

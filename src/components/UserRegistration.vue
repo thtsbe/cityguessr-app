@@ -1,43 +1,48 @@
 <template>
   <div class="signup">
     <input v-model="username" placeholder="Enter user name here" />
-    <button @click="registerUser(username)">Register</button>
+    <button v-on:click="registerUser(username)">Register</button>
+    <div v-if="isEmptyUser" class="emptyUsername">
+      Please enter a username to start the game.
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "UserRegistration",
-  props: {
-    // username: {
-    //   type: String,
-    //   default: "",
-    // },
-  },
+  props: {},
   data() {
-    return {
-      username: "",
-    };
+    return { username: "", isEmptyUser: false };
   },
   methods: {
-    registerUser(username: string) {
-      console.log("clicked regsiter", username);
-      return fetch("https://localhost:8080/checkin", {
-        //TODO: Add correct API request
-        method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ username: username }),
-      }).then((res) => {
-        console.log("res", res);
-      });
+    registerUser: async function (username: string) {
+      if (username) {
+        await axios
+          .post("http://localhost:8080/checkin", { username: username })
+          .then((userId) => {
+            console.log(userId.data);
+            localStorage.setItem("userId", userId.data);
+            this.$router.push("game");
+          })
+          .catch((error) => {
+            console.error("There was an error!", error);
+          });
+      } else {
+        this.isEmptyUser = true;
+      }
     },
   },
 });
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.emptyUsername {
+  color: red;
+  font-size: 12px;
+  margin-top: 10px;
+}
+</style>
