@@ -65,11 +65,12 @@ export default defineComponent({
 <style scoped lang="scss">
 #map {
   width: 100vw;
-  height: 80vh;
+  height: 60vh;
 }
 
 .selection {
   float: left;
+  height: 20vh;
 
   .city-choice {
     width: 50vw;
