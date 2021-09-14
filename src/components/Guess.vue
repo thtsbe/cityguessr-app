@@ -1,7 +1,7 @@
 <template>
   <GoogleMap
     id="map"
-    api-key="AIzaSyCeykO_a9I6yQyvhYsuLHmTodo7MhJK5h0"
+    :api-key="apiKey"
     :center="center"
     :zoom="10"
     :disableDefaultUi="true"
@@ -57,6 +57,7 @@ export default defineComponent({
   data() {
     return {
       mapTypeId: "satellite",
+      apiKey: process.env.VUE_APP_GOOGLE_API_KEY,
     };
   },
 });

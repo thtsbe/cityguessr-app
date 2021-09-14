@@ -6,6 +6,8 @@
 import { defineComponent, ref } from "vue";
 import axios from "axios";
 import Guess from "../components/Guess.vue";
+import { GuessDto } from "@/model/guess.model";
+import { GuessResponseDto } from "@/model/guessresponse.model";
 
 export default defineComponent({
   name: "Game",
@@ -15,10 +17,10 @@ export default defineComponent({
   },
 
   setup() {
-    const location = ref({});
+    const location = ref({} as GuessDto);
 
     const getNewLocation = async () => {
-      location.value = (await axios.get("http://localhost:8080/guess")).data;
+      location.value = (await axios.get("http://localhost:8080/guess")).data as GuessDto;
     };
 
     return {
@@ -28,10 +30,19 @@ export default defineComponent({
   },
 
   methods: {
-    selectCity(id: string) {
-      console.log(id);
+    async selectCity(id: string) {
+      const { data } = await axios.post("http://localhost:8080/guess", {
+        guessId: this.location.id,
+        cityId: id,
+      });
+
+      console.log("Result is ", this.isResultCorrect(data));
       this.getNewLocation();
-    }
+    },
+
+    isResultCorrect(guessResponse: GuessResponseDto) {
+      return guessResponse.answerCityId === guessResponse.correctCityId;
+    },
   },
 
   mounted() {
