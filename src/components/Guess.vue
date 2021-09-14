@@ -11,50 +11,47 @@
   <div class="selection">
     <CityChoice
       class="city-choice"
-      v-for="option in options"
-      :key="option"
-      :option="option"
+      v-for="option in location.options"
+      :key="option.id"
+      :option="option.city"
+      @selectCity="selectCity(option.id)"
     ></CityChoice>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, PropType } from "vue";
 import { GoogleMap } from "vue3-google-map";
-import axios from "axios";
 import CityChoice from "@/components/CityChoice.vue";
+import { GuessDto } from "@/model/guess.model";
 
 export default defineComponent({
   components: { GoogleMap, CityChoice },
-  name: "",
+  name: "Guess",
 
-  setup() {
-    const center = ref({});
-    const options = ref([] as string[]);
+  emits: ["selectCity"],
 
-    const getNewLocation = async () => {
-      const newLocation = (await axios.get("http://localhost:8080/guess")).data;
-      center.value = {
-        lng: parseFloat(newLocation.lng),
-        lat: parseFloat(newLocation.lat),
-      };
-      options.value = [
-        newLocation.option1,
-        newLocation.option2,
-        newLocation.option3,
-        newLocation.option4,
-      ];
-    };
-
-    return {
-      getNewLocation,
-      center,
-      options,
-    };
+  props: {
+    location: {
+      type: Object as PropType<GuessDto>,
+      required: true,
+    },
   },
 
-  mounted() {
-    this.getNewLocation();
+  computed: {
+    center() {
+      const { lat = "0", lng = "0" } = this.location;
+      return {
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
+      };
+    },
+  },
+
+  methods: {
+    selectCity(id: string) {
+      this.$emit("selectCity", id);
+    },
   },
 
   data() {
