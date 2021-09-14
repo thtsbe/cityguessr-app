@@ -4,7 +4,7 @@
       :api-key="apiKey"
       :center="center"
       :zoom="11"
-      minZoom="11"
+      :minZoom="11"
       :disableDefaultUi="true"
       :mapTypeId="mapTypeId">
     <Marker :options="{ position: center }"></Marker>
