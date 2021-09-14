@@ -1,4 +1,4 @@
-yarn build
+yarn build --prod
 
 docker build -t thtsbe/cityguessr-app:latest .
 
