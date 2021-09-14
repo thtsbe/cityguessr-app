@@ -1,32 +1,34 @@
 <template>
   <GoogleMap
-    id="map"
-    api-key="AIzaSyCeykO_a9I6yQyvhYsuLHmTodo7MhJK5h0"
-    :center="center"
-    :zoom="10"
-    :disableDefaultUi="true"
-    :mapTypeId="mapTypeId"
-  >
+      id="map"
+      :api-key="apiKey"
+      :center="center"
+      :zoom="11"
+      :minZoom="11"
+      :disableDefaultUi="true"
+      :mapTypeId="mapTypeId">
+    <Marker :options="{ position: center }"></Marker>
   </GoogleMap>
   <div class="selection">
-    <CityChoice
-      class="city-choice"
-      v-for="option in location.options"
-      :key="option.id"
-      :option="option.city"
-      @selectCity="selectCity(option.id)"
-    ></CityChoice>
+    <div
+        class="city-choice"
+        v-for="option in location.options"
+        :key="option.id"
+      >
+      <CityChoice  :option="option.city"
+        @selectCity="selectCity(option.id)"
+    ></CityChoice></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { GoogleMap } from "vue3-google-map";
+import { GoogleMap, Marker } from "vue3-google-map";
 import CityChoice from "@/components/CityChoice.vue";
 import { GuessDto } from "@/model/guess.model";
 
 export default defineComponent({
-  components: { GoogleMap, CityChoice },
+  components: { GoogleMap, Marker, CityChoice },
   name: "Guess",
 
   emits: ["selectCity"],
@@ -57,6 +59,7 @@ export default defineComponent({
   data() {
     return {
       mapTypeId: "satellite",
+      apiKey: "AIzaSyAlsWbbEXmMc7Vpvcg7ZCp9qkomDIQqK1o",
     };
   },
 });
@@ -65,16 +68,20 @@ export default defineComponent({
 <style scoped lang="scss">
 #map {
   width: 100vw;
-  height: 60vh;
+  height: calc(100vh - 7px);
 }
 
 .selection {
-  float: left;
-  height: 20vh;
+  bottom: 15px;
+  max-height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  bottom: 15px;
 
   .city-choice {
     width: 50vw;
-    height: 10vh;
+    height: 50px;
   }
 }
 </style>
