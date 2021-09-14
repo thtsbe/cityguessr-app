@@ -4,10 +4,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import axios from "axios";
 import Guess from "../components/Guess.vue";
 import { GuessDto } from "@/model/guess.model";
 import { GuessResponseDto } from "@/model/guessresponse.model";
+import { http } from '@/service/http-api';
 
 export default defineComponent({
   name: "Game",
@@ -20,7 +20,7 @@ export default defineComponent({
     const location = ref({} as GuessDto);
 
     const getNewLocation = async () => {
-      location.value = (await axios.get("http://localhost:8080/guess")).data as GuessDto;
+      location.value = (await http.get("/guess")).data as GuessDto;
     };
 
     return {
@@ -31,7 +31,7 @@ export default defineComponent({
 
   methods: {
     async selectCity(id: string) {
-      const { data } = await axios.post("http://localhost:8080/guess", {
+      const { data } = await http.post("/guess", {
         guessId: this.location.id,
         cityId: id,
       });
