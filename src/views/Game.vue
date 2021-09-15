@@ -25,7 +25,6 @@ export default defineComponent({
   },
 
   beforeRouteEnter(to, from, next) {
-    console.log("routerguard")
     if (!localStorage.getItem("userId")) {
       next("/register")
     } else {
@@ -34,7 +33,6 @@ export default defineComponent({
   },
 
   setup() {
-    console.log("setup")
     const location = ref({} as GuessDto);
     const correct = ref(true);
     const round = ref(0);
