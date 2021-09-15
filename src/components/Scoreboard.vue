@@ -1,81 +1,61 @@
 <template>
-  <div v-if="!isLoading && users" class="scoreboard-container">
+  <div v-if="userScores" class="scoreboard-container">
     <table class="table center">
       <thead>
-        <tr>
-          <th class="rank">Rank</th>
-          <th class="name">Username</th>
-          <th class="score">Score</th>
-        </tr>
+      <tr>
+        <th class="rank">Rank</th>
+        <th class="name">Username</th>
+        <th class="score">Total Games</th>
+        <th class="points">Points</th>
+      </tr>
       </thead>
       <tbody>
-        <tr v-for="(user, index) in users" :key="user.id">
-          <td class="rank">{{ index + 1 }}.</td>
-          <td class="name">{{ user.name }}</td>
-          <td class="score">{{ user.score }}</td>
-        </tr>
+      <tr v-for="(scores, index) in userScores" :key="index">
+        <td class="rank">{{ index + 1 }}.</td>
+        <td class="name">{{ scores.username }}</td>
+        <td class="score">{{ scores.totalGames }}</td>
+        <td class="points">{{ scores.points }}</td>
+      </tr>
       </tbody>
     </table>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, ref } from "vue";
+import { http } from '@/service/http-api';
+import { Scores } from '@/model/scores.model';
 
 export default defineComponent({
   name: "Scoreboard",
   props: {},
   data() {
-    return {
-      users: [
-        { name: "Frank", score: 25 },
-        { name: "Lucy", score: 21 },
-        { name: "Jerry", score: 20 },
-        { name: "Pedro", score: 19 },
-      ],
-    };
+    return {};
   },
+
   setup() {
-    const userScores = ref(null);
+    console.log("setup")
+    const userScores = ref({} as Scores[]);
     const isLoading = ref(true);
     const error = ref(null);
 
-    function fetchScores() {
-      isLoading.value = true;
-      return fetch("<API-REQUEST-URL>", {
-        //TODO: Add correct API request
-        method: "get",
-        headers: {
-          "content-type": "application/json",
-        },
-      })
-        .then((res) => {
-          if (!res.ok) {
-            const error = new Error(res.statusText);
-            throw error;
-          }
-          return res.json();
-        })
-        .then((json) => {
-          userScores.value = json.data;
-        })
-        .catch((err) => {
-          error.value = err;
-        })
-        .then(() => {
-          isLoading.value = false;
-        });
-    }
 
-    onMounted(() => {
-      fetchScores();
-    });
+    const getScores = async () => {
+      userScores.value =
+          ((await http.get("/scores")).data as Scores[])
+              .sort((a, b) => b.points - a.points);
+    };
 
     return {
+      getScores,
       userScores,
       isLoading,
       error,
     };
+  },
+
+  mounted() {
+    this.getScores();
   },
 });
 </script>
@@ -100,6 +80,10 @@ tr:nth-child(even) {
 }
 
 .score {
+  width: 100px;
+}
+
+.points {
   width: 100px;
 }
 
