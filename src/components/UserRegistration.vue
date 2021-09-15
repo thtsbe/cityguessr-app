@@ -26,6 +26,7 @@ export default defineComponent({
           .post("/checkin", { username: username })
           .then((userId) => {
             localStorage.setItem("userId", userId.data);
+            localStorage.setItem("username", username);
             this.$router.push("game");
           })
           .catch((error) => {
