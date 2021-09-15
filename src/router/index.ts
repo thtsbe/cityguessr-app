@@ -1,11 +1,12 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Scores from "../views/Scores.vue";
+import Home from '@/views/Home.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    redirect: "/game",
+    component: Home
   },
   {
     path: "/scores",
