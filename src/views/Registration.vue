@@ -1,4 +1,5 @@
 <template>
+  <div class="background"></div>
   <meta charset="UTF-8" />
   <div class="registration">
     <h1 class="gameTitle">Städtli Quizzli</h1>
@@ -36,5 +37,28 @@ export default defineComponent({
   top: -2vh;
   position: relative;
   margin: 0;
+}
+
+.background {
+  animation: rotation 30s infinite linear;
+  background-image: url(/img/earth.04512e70.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: black;
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  height: 100vh;
+  background-position: bottom;
+  z-index: -1;
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
 }
 </style>
