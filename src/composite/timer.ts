@@ -10,6 +10,10 @@ export const withTimer = (maxGuessTimeInSec: number, timeExpiredFn: () => void) 
         }
     }
 
+    const reduceAvailableTimeInHalf = () => {
+        remainingTime.value = Math.round(remainingTime.value / 2);
+    }
+
     const startTimer = () => {
         remainingTime.value = maxGuessTimeInSec;
         removeIntervals();
@@ -26,5 +30,5 @@ export const withTimer = (maxGuessTimeInSec: number, timeExpiredFn: () => void) 
     }
 
     onBeforeUnmount(() => removeIntervals());
-    return { remainingTime, startTimer };
+    return { remainingTime, startTimer, reduceAvailableTimeInHalf };
 }
