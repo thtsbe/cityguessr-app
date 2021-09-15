@@ -22,7 +22,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .result {
   position: absolute;
-  height: 7px;
+  height: 15px;
   bottom: 0;
   left: 0;
   right: 0;

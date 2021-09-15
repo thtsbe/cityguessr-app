@@ -75,12 +75,11 @@ export default defineComponent({
 }
 
 .selection {
-  bottom: 15px;
   max-height: 100px;
   display: flex;
   flex-wrap: wrap;
   position: absolute;
-  bottom: 15px;
+  bottom: 25px;
 
   .city-choice {
     width: 50vw;

@@ -40,13 +40,19 @@ export default defineComponent({
 <style scoped lang="scss">
 button {
   border-radius: 8px;
-  background: white;
-  font-size: 1.4em;
+  background-color: whitesmoke;
+  border: 1px solid whitesmoke;
+  background-image: linear-gradient(1deg, #d5d5d5, #f5f5f5 99%);
+  color: #2b2d2f;
+  font-size: 1.5em;
   width: 100%;
   height: 100%;
+  padding: 5px 25px 5px 25px;
+  cursor: pointer;
 
   &:hover:not(:disabled) {
-    background-color: AliceBlue;
+    background-color: #1357be;
+    background-image: linear-gradient(1deg, #bbbbbb, #d5d5d5 99%);
     cursor: pointer;
   }
 
