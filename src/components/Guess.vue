@@ -4,9 +4,11 @@
     :api-key="apiKey"
     :center="center"
     :zoom="11"
+    :minZoom="11"
     :disableDefaultUi="true"
     :mapTypeId="mapTypeId"
   >
+    <Marker :options="{ position: center }"></Marker>
   </GoogleMap>
   <div class="selection">
     <div
@@ -24,12 +26,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { GoogleMap } from "vue3-google-map";
+import { GoogleMap, Marker } from "vue3-google-map";
 import CityChoice from "@/components/CityChoice.vue";
 import { GuessDto } from "@/model/guess.model";
 
 export default defineComponent({
-  components: { GoogleMap, CityChoice },
+  components: { GoogleMap, Marker, CityChoice },
   name: "Guess",
 
   emits: ["selectCity"],
@@ -60,7 +62,7 @@ export default defineComponent({
   data() {
     return {
       mapTypeId: "satellite",
-      apiKey: process.env.VUE_APP_GOOGLE_API_KEY,
+      apiKey: "AIzaSyAlsWbbEXmMc7Vpvcg7ZCp9qkomDIQqK1o",
     };
   },
 });
