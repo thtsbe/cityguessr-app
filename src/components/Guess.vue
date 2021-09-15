@@ -13,8 +13,8 @@
   <div class="selection">
     <div
       class="city-choice"
-      v-for="option in location.options"
-      :key="option.id"
+      v-for="(option, index) in location.options"
+      :key="index"
     >
       <CityChoice
         :option="option.city"
