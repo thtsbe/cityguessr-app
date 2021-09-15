@@ -27,7 +27,6 @@ import { defineComponent, PropType } from "vue";
 import { GoogleMap } from "vue3-google-map";
 import CityChoice from "@/components/CityChoice.vue";
 import { GuessDto } from "@/model/guess.model";
-import { http } from '@/service/http-api';
 
 export default defineComponent({
   components: { GoogleMap, CityChoice },

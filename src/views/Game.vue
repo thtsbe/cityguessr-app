@@ -1,40 +1,55 @@
 <template>
   <Guess :location="location" @selectCity="selectCity($event)"></Guess>
-  <transition name="fade">
-    <div class="result">
-      <div class="correct" v-if="correct"></div>
-      <div class="incorrect" v-if="!correct"></div>
-    </div>
-  </transition>
+  <ResultBar :correct="correct" />
+  <div class="timer">
+    {{ remainingTime }}
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 import Guess from "../components/Guess.vue";
+import ResultBar from "../components/ResultBar.vue";
 import { GuessDto } from "@/model/guess.model";
 import { GuessResponseDto } from "@/model/guessresponse.model";
-import { http } from '@/service/http-api';
+import { http } from "@/service/http-api";
+import { withTimer } from "@/composite/timer";
 
 export default defineComponent({
   name: "Game",
 
   components: {
     Guess,
+    ResultBar,
   },
 
   setup() {
     const location = ref({} as GuessDto);
     const correct = ref(true);
+    const round = ref(0);
+    const maxRounds = ref(2);
+    const router = useRouter();
 
     const getNewLocation = async () => {
-      location.value = (await http.get("/guess"))
-        .data as GuessDto;
+      location.value = (await http.get("/guess")).data as GuessDto;
+      round.value = round.value + 1;
+
+      if (round.value > maxRounds.value) {
+        router.push({ name: "Scores" });
+      }
     };
 
+    const { remainingTime, startTimer } = withTimer(60, getNewLocation);
+
     return {
+      remainingTime,
+      startTimer,
       getNewLocation,
       location,
       correct,
+      round,
+      maxRounds,
     };
   },
 
@@ -47,10 +62,15 @@ export default defineComponent({
 
       if (this.isResultCorrect(data)) {
         this.getNewLocation();
+        this.startTimer();
         this.correct = true;
       } else {
         this.correct = false;
       }
+    },
+
+    redirectToScores() {
+      this.$router.push({ name: "Scores" });
     },
 
     isResultCorrect(guessResponse: GuessResponseDto) {
@@ -59,31 +79,18 @@ export default defineComponent({
   },
 
   mounted() {
+    this.startTimer();
     this.getNewLocation();
   },
 });
 </script>
 
 <style scoped lang="scss">
-.result {
+.timer {
   position: absolute;
-  height: 7px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  & .correct,
-  & .incorrect {
-    width: 100%;
-    height: 100%;
-  }
-
-  & .correct {
-    background-color: green;
-  }
-
-  & .incorrect {
-    background-color: red;
-  }
+  right: 5px;
+  top: 5px;
+  font-size: 3em;
+  color: white;
 }
 </style>
