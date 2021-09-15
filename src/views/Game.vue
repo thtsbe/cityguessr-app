@@ -91,10 +91,6 @@ export default defineComponent({
       }
     },
 
-    redirectToScores() {
-      this.$router.push({ name: "Scores" });
-    },
-
     isResultCorrect(guessResponse: GuessResponseDto) {
       return guessResponse.answerCityId === guessResponse.correctCityId;
     },
