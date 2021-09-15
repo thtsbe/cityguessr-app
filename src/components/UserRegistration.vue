@@ -1,13 +1,16 @@
 <template>
   <div class="signup">
-    <input v-model="username" placeholder="Enter username here" />
+    <input
+      v-on:keyup.enter="registerUser(username)"
+      v-model="username"
+      placeholder="Enter username here"
+    />
     <button v-on:click="registerUser(username)">Let's Go!</button>
   </div>
 </template>
 
 <script lang="ts">
 import { http } from "@/service/http-api";
-import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
