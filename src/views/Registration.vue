@@ -37,7 +37,7 @@ export default defineComponent({
 
 .background {
   animation: rotation 30s infinite linear;
-  background-image: url(/img/earth.04512e70.png);
+  background-image: url("../assets/earth.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-color: black;
