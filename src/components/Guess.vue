@@ -1,23 +1,26 @@
 <template>
   <GoogleMap
-      id="map"
-      :api-key="apiKey"
-      :center="center"
-      :zoom="11"
-      :minZoom="11"
-      :disableDefaultUi="true"
-      :mapTypeId="mapTypeId">
+    id="map"
+    :api-key="apiKey"
+    :center="center"
+    :zoom="11"
+    :minZoom="11"
+    :disableDefaultUi="true"
+    :mapTypeId="mapTypeId"
+  >
     <Marker :options="{ position: center }"></Marker>
   </GoogleMap>
   <div class="selection">
     <div
-        class="city-choice"
-        v-for="option in location.options"
-        :key="option.id"
-      >
-      <CityChoice  :option="option.city"
+      class="city-choice"
+      v-for="option in location.options"
+      :key="option.id"
+    >
+      <CityChoice
+        :option="option.city"
         @selectCity="selectCity(option.id)"
-    ></CityChoice></div>
+      ></CityChoice>
+    </div>
   </div>
 </template>
 

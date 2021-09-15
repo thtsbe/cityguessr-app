@@ -2,20 +2,20 @@
   <div v-if="userScores" class="scoreboard-container">
     <table class="table center">
       <thead>
-      <tr>
-        <th class="rank">Rank</th>
-        <th class="name">Username</th>
-        <th class="score">Total Games</th>
-        <th class="points">Points</th>
-      </tr>
+        <tr>
+          <th class="rank">Rank</th>
+          <th class="name">Username</th>
+          <th class="score">Total Games</th>
+          <th class="points">Points</th>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="(scores, index) in userScores" :key="index">
-        <td class="rank">{{ index + 1 }}.</td>
-        <td class="name">{{ scores.username }}</td>
-        <td class="score">{{ scores.totalGames }}</td>
-        <td class="points">{{ scores.points }}</td>
-      </tr>
+        <tr v-for="(scores, index) in userScores" :key="index">
+          <td class="rank">{{ index + 1 }}.</td>
+          <td class="name">{{ scores.username }}</td>
+          <td class="score">{{ scores.totalGames }}</td>
+          <td class="points">{{ scores.points }}</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -23,8 +23,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { http } from '@/service/http-api';
-import { Scores } from '@/model/scores.model';
+import { http } from "@/service/http-api";
+import { Scores } from "@/model/scores.model";
 
 export default defineComponent({
   name: "Scoreboard",
@@ -34,16 +34,15 @@ export default defineComponent({
   },
 
   setup() {
-    console.log("setup")
+    console.log("setup");
     const userScores = ref({} as Scores[]);
     const isLoading = ref(true);
     const error = ref(null);
 
-
     const getScores = async () => {
-      userScores.value =
-          ((await http.get("/scores")).data as Scores[])
-              .sort((a, b) => b.points - a.points);
+      userScores.value = ((await http.get("/scores")).data as Scores[]).sort(
+        (a, b) => b.points - a.points
+      );
     };
 
     return {

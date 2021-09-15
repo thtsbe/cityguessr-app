@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts">
+import { http } from "@/service/http-api";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -18,8 +19,8 @@ export default defineComponent({
   methods: {
     registerUser: async function (username: string) {
       if (username) {
-        await axios
-          .post("http://localhost:8080/checkin", { username: username })
+        await http
+          .post("/checkin", { username: username })
           .then((userId) => {
             localStorage.setItem("userId", userId.data);
             this.$router.push("game");
