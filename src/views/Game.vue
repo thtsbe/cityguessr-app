@@ -1,6 +1,6 @@
 <template>
   <Guess :location="location" @selectCity="selectCity($event)"></Guess>
-  <ResultBar :correct="correct" />
+  <ResultBar :correct="correct"/>
   <div class="timer">
     {{ remainingTime }}
   </div>
@@ -25,8 +25,7 @@ export default defineComponent({
   },
 
   beforeRouteEnter(to, from, next) {
-    console.log("routerguard")
-    if(!localStorage.getItem("userId")) {
+    if (!localStorage.getItem("userId")) {
       next("/register")
     } else {
       next()
@@ -34,7 +33,6 @@ export default defineComponent({
   },
 
   setup() {
-    console.log("setup")
     const location = ref({} as GuessDto);
     const correct = ref(true);
     const round = ref(0);
@@ -42,7 +40,8 @@ export default defineComponent({
     const router = useRouter();
 
     const getNewLocation = async () => {
-      location.value = (await http.get("/guess/" + localStorage.getItem("userId"))).data as GuessDto;
+      location.value = (await http.get("/guess/" + localStorage.getItem("userId"))
+      ).data as GuessDto;
       round.value = round.value + 1;
 
       if (round.value > maxRounds.value) {
@@ -68,6 +67,7 @@ export default defineComponent({
       const { data } = await http.post("/guess", {
         guessId: this.location.id,
         cityId: id,
+        userId: localStorage.getItem("userId"),
       });
 
       if (this.isResultCorrect(data)) {
