@@ -13,9 +13,9 @@ import { defineComponent, ref } from "vue";
 import Guess from "../components/Guess.vue";
 import { GuessDto } from "@/model/guess.model";
 import { GuessResponseDto } from "@/model/guessresponse.model";
-import { http } from '@/service/http-api';
+import { http } from "@/service/http-api";
 
-const userid = '123e4567-e89b-12d3-a456-556642440000'
+const userid = localStorage.getItem("userId");
 
 export default defineComponent({
   name: "Game",
@@ -29,8 +29,7 @@ export default defineComponent({
     const correct = ref(true);
 
     const getNewLocation = async () => {
-      location.value = (await http.get("/guess/" + userid))
-          .data as GuessDto;
+      location.value = (await http.get("/guess/" + userid)).data as GuessDto;
     };
 
     return {
