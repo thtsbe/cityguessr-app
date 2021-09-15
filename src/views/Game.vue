@@ -5,7 +5,7 @@
     {{ username }}
   </div>
   <div class="timer">
-    {{ remainingTime }}
+    {{ remainingTime }} | <b>{{ round }}</b>
   </div>
 </template>
 
@@ -39,7 +39,7 @@ export default defineComponent({
     const location = ref({} as GuessDto);
     const correct = ref(true);
     const round = ref(0);
-    const maxRounds = ref(2);
+    const maxRounds = ref(10);
     const router = useRouter();
     const userId = ref(localStorage.getItem("userId"))
     const username = ref(localStorage.getItem("username"))
@@ -106,7 +106,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .timer {
   position: absolute;
-  right: 5px;
+  right: 15px;
   top: 5px;
   font-size: 3em;
   color: white;
