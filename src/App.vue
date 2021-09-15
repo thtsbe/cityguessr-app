@@ -18,7 +18,7 @@ body {
 }
 
 .background {
-  animation: rotation 12s infinite linear;
+  animation: rotation 30s infinite linear;
   background-image: url(/img/earth.04512e70.png);
   background-repeat: no-repeat;
   background-size: contain;
