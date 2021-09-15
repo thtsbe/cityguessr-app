@@ -2,20 +2,20 @@
   <div v-if="userScores" class="scoreboard-container">
     <table class="table center">
       <thead>
-        <tr>
-          <th class="rank">Rank</th>
-          <th class="name">Username</th>
-          <th class="score">Total Games</th>
-          <th class="points">Points</th>
-        </tr>
+      <tr>
+        <th class="rank">Rank</th>
+        <th class="name">Username</th>
+        <th class="score">Total Games</th>
+        <th class="points">Points</th>
+      </tr>
       </thead>
       <tbody>
-        <tr v-for="(scores, index) in userScores" :key="index">
-          <td class="rank">{{ index + 1 }}.</td>
-          <td class="name">{{ scores.username }}</td>
-          <td class="score">{{ scores.totalGames }}</td>
-          <td class="points">{{ scores.points }}</td>
-        </tr>
+      <tr v-for="(scores, index) in userScores" :key="index" class="row">
+        <td class="rank">{{ index + 1 }}.</td>
+        <td class="name">{{ scores.username }}</td>
+        <td class="score">{{ scores.totalGames }}</td>
+        <td class="points">{{ scores.points }}</td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -41,7 +41,7 @@ export default defineComponent({
 
     const getScores = async () => {
       userScores.value = ((await http.get("/scores")).data as Scores[]).sort(
-        (a, b) => b.points - a.points
+          (a, b) => b.points - a.points
       );
     };
 
@@ -70,8 +70,8 @@ thead {
   color: white;
 }
 
-tr:nth-child(even) {
-  background-color: lightgrey;
+.row {
+  color: white;
 }
 
 .rank {
