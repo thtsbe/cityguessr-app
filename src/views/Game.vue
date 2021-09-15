@@ -1,6 +1,6 @@
 <template>
   <Guess :location="location" @selectCity="selectCity($event)"></Guess>
-  <ResultBar :correct="correct"/>
+  <ResultBar :correct="correct" />
   <div class="username">
     {{ username }}
   </div>
@@ -29,9 +29,9 @@ export default defineComponent({
 
   beforeRouteEnter(to, from, next) {
     if (!localStorage.getItem("userId")) {
-      next("/register")
+      next("/register");
     } else {
-      next()
+      next();
     }
   },
 
@@ -54,17 +54,21 @@ export default defineComponent({
       }
     };
 
-    const { remainingTime, startTimer } = withTimer(60, getNewLocation);
+    const { remainingTime, startTimer, reduceAvailableTimeInHalf } = withTimer(
+      60,
+      getNewLocation
+    );
 
     return {
       remainingTime,
       startTimer,
       getNewLocation,
+      reduceAvailableTimeInHalf,
       location,
       correct,
       round,
       maxRounds,
-      username
+      username,
     };
   },
 
@@ -74,6 +78,7 @@ export default defineComponent({
         guessId: this.location.id,
         cityId: id,
         userId: localStorage.getItem("userId"),
+        score: this.remainingTime,
       });
 
       if (this.isResultCorrect(data)) {
@@ -81,6 +86,7 @@ export default defineComponent({
         this.startTimer();
         this.correct = true;
       } else {
+        this.reduceAvailableTimeInHalf();
         this.correct = false;
       }
     },
