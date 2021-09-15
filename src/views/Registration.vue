@@ -21,10 +21,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.registration {
-  margin-top: 25vh;
-}
-
 .gameTitle {
   font-size: 10em;
   color: whitesmoke;
