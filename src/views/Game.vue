@@ -16,8 +16,6 @@ import { GuessResponseDto } from "@/model/guessresponse.model";
 import { http } from "@/service/http-api";
 import { withTimer } from "@/composite/timer";
 
-const userid = localStorage.getItem("userId");
-
 export default defineComponent({
   name: "Game",
 
@@ -26,7 +24,17 @@ export default defineComponent({
     ResultBar,
   },
 
+  beforeRouteEnter(to, from, next) {
+    console.log("routerguard")
+    if(!localStorage.getItem("userId")) {
+      next("/register")
+    } else {
+      next()
+    }
+  },
+
   setup() {
+    console.log("setup")
     const location = ref({} as GuessDto);
     const correct = ref(true);
     const round = ref(0);
@@ -34,7 +42,7 @@ export default defineComponent({
     const router = useRouter();
 
     const getNewLocation = async () => {
-      location.value = (await http.get("/guess/" + userid)).data as GuessDto;
+      location.value = (await http.get("/guess/" + localStorage.getItem("userId"))).data as GuessDto;
       round.value = round.value + 1;
 
       if (round.value > maxRounds.value) {
