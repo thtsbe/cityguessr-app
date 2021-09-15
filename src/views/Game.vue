@@ -1,6 +1,9 @@
 <template>
   <Guess :location="location" @selectCity="selectCity($event)"></Guess>
   <ResultBar :correct="correct" />
+  <div class="username">
+    {{ username }}
+  </div>
   <div class="timer">
     {{ remainingTime }}
   </div>
@@ -38,9 +41,11 @@ export default defineComponent({
     const round = ref(0);
     const maxRounds = ref(2);
     const router = useRouter();
+    const userId = ref(localStorage.getItem("userId"))
+    const username = ref(localStorage.getItem("username"))
 
     const getNewLocation = async () => {
-      location.value = (await http.get("/guess/" + localStorage.getItem("userId"))
+      location.value = (await http.get("/guess/" + userId.value)
       ).data as GuessDto;
       round.value = round.value + 1;
 
@@ -63,6 +68,7 @@ export default defineComponent({
       correct,
       round,
       maxRounds,
+      username,
     };
   },
 
@@ -107,6 +113,17 @@ export default defineComponent({
   right: 5px;
   top: 5px;
   font-size: 3em;
+  color: white;
+}
+
+.username {
+  position: absolute;
+  left: 15px;
+  top: 5px;
+  font-size: 2em;
+  padding: 5px;
+  background-color: #2c3e50;
+  font-weight: bold;
   color: white;
 }
 </style>
