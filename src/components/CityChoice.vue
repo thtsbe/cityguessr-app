@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="click" :disabled="disabled"><b>{{ city.city }}</b> {{ city.country }}</button>
+    <button @click="click" :disabled="disabled">{{ option }}</button>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default defineComponent({
   emits: ["selectCity"],
 
   props: {
-    city: {}
+    option: { type: String, required: true },
   },
 
   data() {
