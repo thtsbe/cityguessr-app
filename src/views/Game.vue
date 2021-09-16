@@ -121,15 +121,16 @@ export default defineComponent({
       if (this.zoomLevel.level > 9) {
         for (
           let newZoom = this.zoomLevel.level;
-          newZoom > 1;
-          newZoom = newZoom - 2
+          newZoom > 2;
+          newZoom = newZoom - 3
         ) {
           setTimeout(() => {
             this.updateZoom(1, 19, newZoom);
-          }, i * 500);
+          }, i * 300);
           i++;
         }
-        return new Promise((res) => setTimeout(res, i * 400 + 2000));
+        this.updateZoom(1, 19, 1);
+        return new Promise((res) => setTimeout(res, i * 300 + 2000));
       } else {
         return Promise.resolve();
       }
