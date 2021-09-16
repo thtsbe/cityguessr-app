@@ -30,7 +30,7 @@ export default defineComponent({
   },
 
   watch: {
-    option() {
+    city() {
       this.disabled = false;
     },
   },
