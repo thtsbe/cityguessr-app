@@ -63,11 +63,29 @@ export default defineComponent({
       }
     };
 
-    const setZoomLevel = () => {
-      const zoom = Math.floor(Math.random() * (17 - 2) + 2);
+    const updateZoom = (minZoom: number, maxZoom: number) => {
+      const zoom = Math.floor(Math.random() * (maxZoom - minZoom) + minZoom);
+      console.log("zoom", zoom);
       zoomLevel.value.level = zoom;
       zoomLevel.value.min = zoom - 2 > 0 ? zoom - 2 : 1;
       zoomLevel.value.max = 19;
+    };
+
+    const setZoomLevel = () => {
+      const zoomProb = Math.random();
+      let minZoom;
+      let maxZoom;
+      if (zoomProb < 0.2) {
+        minZoom = 6;
+        maxZoom = 11;
+      } else if (zoomProb < 0.6) {
+        minZoom = 2;
+        maxZoom = 6;
+      } else {
+        minZoom = 11;
+        maxZoom = 19;
+      }
+      updateZoom(minZoom, maxZoom);
     };
 
     const { remainingTime, startTimer, reduceAvailableTimeInHalf } = withTimer(
