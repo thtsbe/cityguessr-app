@@ -1,7 +1,8 @@
 <template>
   <div class="result">
-    <div class="correct" v-if="correct"></div>
-    <div class="incorrect" v-if="!correct"></div>
+    <div class="unanswered" v-if="!answered"></div>
+    <div class="correct" v-if="correct && answered"></div>
+    <div class="incorrect" v-if="!correct && answered"></div>
   </div>
 </template>
 
@@ -12,6 +13,10 @@ export default defineComponent({
 
   props: {
     correct: {
+      type: Boolean,
+      required: true,
+    },
+    answered: {
       type: Boolean,
       required: true,
     },
@@ -28,7 +33,8 @@ export default defineComponent({
   right: 0;
 
   & .correct,
-  & .incorrect {
+  & .incorrect,
+  & .unanswered {
     width: 100%;
     height: 100%;
   }
@@ -39,6 +45,10 @@ export default defineComponent({
 
   & .incorrect {
     background-color: red;
+  }
+
+  & .unanswered {
+    background-color: grey;
   }
 }
 </style>

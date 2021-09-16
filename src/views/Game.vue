@@ -4,7 +4,7 @@
     :zoomLevel="zoomLevel"
     @selectCity="selectCity($event)"
   ></Guess>
-  <ResultBar :correct="correct" />
+  <ResultBar :correct="correct" :answered="answered" />
   <div class="username">
     {{ username }}
   </div>
@@ -44,6 +44,7 @@ export default defineComponent({
   setup() {
     const location = ref({} as GuessDto);
     const correct = ref(true);
+    const answered = ref(false);
     const round = ref(0);
     const maxRounds = ref(5);
     const router = useRouter();
@@ -52,10 +53,14 @@ export default defineComponent({
     const zoomLevel = ref({ min: 9, max: 13, level: 11 } as ZoomLevel);
 
     const getNewLocation = async () => {
+      answered.value = false;
       setZoomLevel();
 
       location.value = (await http.get("/guess/" + userId.value))
         .data as GuessDto;
+    };
+
+    const updateRounds = () => {
       round.value = round.value + 1;
 
       if (round.value > maxRounds.value) {
@@ -63,8 +68,10 @@ export default defineComponent({
       }
     };
 
-    const updateZoom = (minZoom: number, maxZoom: number) => {
-      const zoom = Math.floor(Math.random() * (maxZoom - minZoom) + minZoom);
+    const updateZoom = (minZoom: number, maxZoom: number, newZoom?: number) => {
+      const zoom = newZoom
+        ? newZoom
+        : Math.floor(Math.random() * (maxZoom - minZoom) + minZoom);
       zoomLevel.value.level = zoom;
       zoomLevel.value.min = zoom - 2 > 0 ? zoom - 2 : 1;
       zoomLevel.value.max = 19;
@@ -99,15 +106,38 @@ export default defineComponent({
       reduceAvailableTimeInHalf,
       location,
       correct,
+      answered,
       round,
       maxRounds,
       username,
       zoomLevel,
+      updateZoom,
+      updateRounds,
     };
   },
 
   methods: {
+    async zoomAway() {
+      let i = 0;
+      if (this.zoomLevel.level > 9) {
+        for (
+          let newZoom = this.zoomLevel.level;
+          newZoom > 1;
+          newZoom = newZoom - 2
+        ) {
+          setTimeout(() => {
+            this.updateZoom(1, 19, newZoom);
+          }, i * 500);
+          i++;
+        }
+        return new Promise((res) => setTimeout(res, i * 400 + 2000));
+      } else {
+        return Promise.resolve();
+      }
+    },
+
     async selectCity(id: string) {
+      this.answered = true;
       const { data } = await http.post("/guess", {
         guessId: this.location.id,
         cityId: id,
@@ -116,9 +146,13 @@ export default defineComponent({
       });
 
       if (this.isResultCorrect(data)) {
-        this.getNewLocation();
-        this.startTimer();
         this.correct = true;
+
+        this.zoomAway().then(() => {
+          this.updateRounds();
+          this.getNewLocation();
+          this.startTimer();
+        });
       } else {
         this.reduceAvailableTimeInHalf();
         this.correct = false;
