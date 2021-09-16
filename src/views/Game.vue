@@ -74,15 +74,15 @@ export default defineComponent({
       const zoomProb = Math.random();
       let minZoom;
       let maxZoom;
-      if (zoomProb < 0.2) {
+      if (zoomProb < 0.1) {
         minZoom = 6;
-        maxZoom = 11;
-      } else if (zoomProb < 0.6) {
-        minZoom = 2;
-        maxZoom = 6;
-      } else {
+        maxZoom = 10;
+      } else if (zoomProb < 0.55) {
         minZoom = 11;
         maxZoom = 19;
+      } else {
+        minZoom = 2;
+        maxZoom = 5;
       }
       updateZoom(minZoom, maxZoom);
     };
