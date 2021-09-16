@@ -3,9 +3,9 @@
     <table class="table center scoretable">
       <thead>
       <tr>
-        <th class="rank">Rank</th>
+        <th class="rank"></th>
         <th class="name">Username</th>
-        <th class="score">Total Games</th>
+        <th class="score">Total Guesses</th>
         <th class="points">Points</th>
       </tr>
       </thead>
@@ -83,11 +83,11 @@ thead {
 }
 
 .score {
-  width: 100px;
+  width: 150px;
 }
 
 .points {
-  width: 100px;
+  width: 120px;
 }
 
 .name {
