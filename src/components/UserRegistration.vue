@@ -48,6 +48,7 @@ input {
   padding: 15px;
   border-radius: 20px;
   border: 1px solid whitesmoke;
+  margin: 10px 10% 10px 10%;
 }
 
 input:focus {
@@ -62,7 +63,6 @@ button {
   background-image: linear-gradient(1deg, #1357be, #149bf3 99%);
   font-size: 1.5em;
   padding: 5px 25px 5px 25px;
-  margin-left: 40px;
   line-height: 2em;
   cursor: pointer;
 

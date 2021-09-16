@@ -80,16 +80,35 @@ export default defineComponent({
   height: calc(100vh - 7px);
 }
 
-.selection {
-  max-height: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  position: absolute;
-  bottom: 25px;
+@media screen and (max-width: 600px) {
+  .selection {
+    display: inline-table;
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    bottom: 25px;
+    left: 0%;
+    right: 0%;
 
-  .city-choice {
-    width: 50vw;
-    height: 50px;
+    .city-choice {
+      max-width: 50vw;
+      display: inline;
+    }
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .selection {
+    max-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    bottom: 25px;
+
+    .city-choice {
+      width: 50vw;
+      height: 50px;
+    }
   }
 }
 </style>
