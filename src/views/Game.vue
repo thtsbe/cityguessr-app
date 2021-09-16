@@ -80,20 +80,17 @@ export default defineComponent({
       const zoomProb = Math.random();
 
       if (zoomProb < 0.25) {
-        console.log("high");
         zoomLevel.value.level = 4;
         zoomLevel.value.min = 2;
         return;
       }
       if (zoomProb > 0.75) {
-        console.log("close");
         zoomLevel.value.level = 16;
         zoomLevel.value.min = 14;
         return;
       }
       zoomLevel.value.level = 11;
       zoomLevel.value.min = 9;
-      console.log("standard");
     };
 
     const { remainingTime, startTimer, reduceAvailableTimeInHalf } = withTimer(
