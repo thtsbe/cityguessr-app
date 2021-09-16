@@ -5,7 +5,7 @@
       <tr>
         <th class="rank">Rank</th>
         <th class="name">Username</th>
-        <th class="score">Total Games</th>
+        <th class="score">Total Guesses</th>
         <th class="points">Points</th>
       </tr>
       </thead>
