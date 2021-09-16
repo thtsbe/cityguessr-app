@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <Scoreboard></Scoreboard>
     <div class="buttons">
       <button @click="playAgain">Play Again</button>
       <button @click="newGame">New Game</button>
     </div>
+    <Scoreboard></Scoreboard>
   </div>
 </template>
 
@@ -42,6 +42,8 @@ export default defineComponent({
 .buttons {
   display: flex;
   justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 button {
@@ -50,10 +52,9 @@ button {
   color: whitesmoke;
   background-color: #3eb2fd;
   background-image: linear-gradient(1deg, #1357be, #149bf3 99%);
-  font-size: 1.5em;
+  font-size: 1.5rem;
   padding: 5px 25px 5px 25px;
   margin: 10px;
-  line-height: 2em;
   cursor: pointer;
 
   &:hover:not(:disabled) {
