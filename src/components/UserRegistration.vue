@@ -48,7 +48,7 @@ input {
   padding: 15px;
   border-radius: 20px;
   border: 1px solid whitesmoke;
-  margin: 10px 10% 10px 10%;
+  margin: 10px 20px 10px 10%;
 }
 
 input:focus {
