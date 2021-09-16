@@ -45,8 +45,8 @@ export default defineComponent({
     const location = ref({} as GuessDto);
     const correct = ref(true);
     const answered = ref(false);
-    const round = ref(0);
-    const maxRounds = ref(5);
+    const round = ref(1);
+    const maxRounds = ref(10);
     const router = useRouter();
     const userId = ref(localStorage.getItem("userId"));
     const username = ref(localStorage.getItem("username"));
@@ -61,10 +61,10 @@ export default defineComponent({
     };
 
     const updateRounds = () => {
-      round.value = round.value + 1;
-
-      if (round.value > maxRounds.value) {
+      if (round.value >= maxRounds.value) {
         router.push({ name: "Scores" });
+      } else {
+        round.value = round.value + 1;
       }
     };
 
