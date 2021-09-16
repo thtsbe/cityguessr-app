@@ -1,5 +1,9 @@
 <template>
-  <Guess :location="location" @selectCity="selectCity($event)"></Guess>
+  <Guess
+    :location="location"
+    :zoomLevel="zoomLevel"
+    @selectCity="selectCity($event)"
+  ></Guess>
   <ResultBar :correct="correct" />
   <div class="username">
     {{ username }}
@@ -7,6 +11,7 @@
   <div class="timer">
     {{ remainingTime }} | <b>{{ round }}</b>
   </div>
+  <div class="timerDesc">possible points | <b> round</b></div>
 </template>
 
 <script lang="ts">
@@ -15,6 +20,7 @@ import { useRouter } from "vue-router";
 import Guess from "../components/Guess.vue";
 import ResultBar from "../components/ResultBar.vue";
 import { GuessDto } from "@/model/guess.model";
+import { ZoomLevel } from "@/model/zoom.model";
 import { GuessResponseDto } from "@/model/guessresponse.model";
 import { http } from "@/service/http-api";
 import { withTimer } from "@/composite/timer";
@@ -41,17 +47,27 @@ export default defineComponent({
     const round = ref(0);
     const maxRounds = ref(10);
     const router = useRouter();
-    const userId = ref(localStorage.getItem("userId"))
-    const username = ref(localStorage.getItem("username"))
+    const userId = ref(localStorage.getItem("userId"));
+    const username = ref(localStorage.getItem("username"));
+    const zoomLevel = ref({ min: 9, max: 13, level: 11 } as ZoomLevel);
 
     const getNewLocation = async () => {
-      location.value = (await http.get("/guess/" + userId.value)
-      ).data as GuessDto;
+      setZoomLevel();
+
+      location.value = (await http.get("/guess/" + userId.value))
+        .data as GuessDto;
       round.value = round.value + 1;
 
       if (round.value > maxRounds.value) {
         router.push({ name: "Scores" });
       }
+    };
+
+    const setZoomLevel = () => {
+      const zoom = Math.floor(Math.random() * (17 - 2) + 2);
+      zoomLevel.value.level = zoom;
+      zoomLevel.value.min = zoom - 2 > 0 ? zoom - 2 : 1;
+      zoomLevel.value.max = 19;
     };
 
     const { remainingTime, startTimer, reduceAvailableTimeInHalf } = withTimer(
@@ -69,6 +85,7 @@ export default defineComponent({
       round,
       maxRounds,
       username,
+      zoomLevel,
     };
   },
 
@@ -104,6 +121,14 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.timerDesc {
+  position: absolute;
+  right: 15px;
+  top: 60px;
+  font-size: 0.95em;
+  color: white;
+}
+
 .timer {
   position: absolute;
   right: 15px;

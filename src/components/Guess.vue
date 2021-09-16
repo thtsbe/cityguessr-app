@@ -3,8 +3,9 @@
     id="map"
     :api-key="apiKey"
     :center="center"
-    :zoom="11"
-    :minZoom="11"
+    :zoom="zoomLevel.level"
+    :minZoom="zoomLevel.min"
+    :maxZoom="zoomLevel.max"
     :disableDefaultUi="true"
     :mapTypeId="mapTypeId"
   >
@@ -29,6 +30,7 @@ import { defineComponent, PropType } from "vue";
 import { GoogleMap, Marker } from "vue3-google-map";
 import CityChoice from "@/components/CityChoice.vue";
 import { GuessDto } from "@/model/guess.model";
+import { ZoomLevel } from "@/model/zoom.model";
 
 export default defineComponent({
   components: { GoogleMap, Marker, CityChoice },
@@ -40,6 +42,10 @@ export default defineComponent({
     location: {
       type: Object as PropType<GuessDto>,
       required: true,
+    },
+    zoomLevel: {
+      type: Object as PropType<ZoomLevel>,
+      requried: true,
     },
   },
 
