@@ -17,7 +17,7 @@
       :key="index"
     >
       <CityChoice
-        :city="option"
+        :option="option.city"
         @selectCity="selectCity(option.id)"
       ></CityChoice>
     </div>
