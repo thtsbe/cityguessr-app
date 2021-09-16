@@ -77,7 +77,7 @@ export default defineComponent({
       if (zoomProb < 0.1) {
         minZoom = 6;
         maxZoom = 10;
-      } else if (zoomProb < 0.55) {
+      } else if (zoomProb < 0.85) {
         minZoom = 11;
         maxZoom = 19;
       } else {
