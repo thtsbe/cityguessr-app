@@ -50,7 +50,7 @@ export default defineComponent({
     const router = useRouter();
     const userId = ref(localStorage.getItem("userId"));
     const username = ref(localStorage.getItem("username"));
-    const zoomLevel = ref({ min: 9, max: 13, level: 11 } as ZoomLevel);
+    const zoomLevel = ref({ min: 9, level: 11 } as ZoomLevel);
 
     const getNewLocation = async () => {
       answered.value = false;
@@ -74,24 +74,26 @@ export default defineComponent({
         : Math.floor(Math.random() * (maxZoom - minZoom) + minZoom);
       zoomLevel.value.level = zoom;
       zoomLevel.value.min = zoom - 2 > 0 ? zoom - 2 : 1;
-      zoomLevel.value.max = 19;
     };
 
     const setZoomLevel = () => {
       const zoomProb = Math.random();
-      let minZoom;
-      let maxZoom;
-      if (zoomProb < 0.1) {
-        minZoom = 6;
-        maxZoom = 10;
-      } else if (zoomProb < 0.85) {
-        minZoom = 11;
-        maxZoom = 19;
-      } else {
-        minZoom = 2;
-        maxZoom = 5;
+
+      if (zoomProb < 0.25) {
+        console.log("high");
+        zoomLevel.value.level = 4;
+        zoomLevel.value.min = 2;
+        return;
       }
-      updateZoom(minZoom, maxZoom);
+      if (zoomProb > 0.75) {
+        console.log("close");
+        zoomLevel.value.level = 16;
+        zoomLevel.value.min = 14;
+        return;
+      }
+      zoomLevel.value.level = 11;
+      zoomLevel.value.min = 9;
+      console.log("standard");
     };
 
     const { remainingTime, startTimer, reduceAvailableTimeInHalf } = withTimer(

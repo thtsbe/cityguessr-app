@@ -5,7 +5,6 @@
     :center="center"
     :zoom="zoomLevel.level"
     :minZoom="zoomLevel.min"
-    :maxZoom="zoomLevel.max"
     :disableDefaultUi="true"
     :mapTypeId="mapTypeId"
   >
