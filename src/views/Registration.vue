@@ -22,7 +22,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .gameTitle {
-  font-size: 10em;
+  font-size: 10rem;
   color: whitesmoke;
   font-family: sans-serif;
   margin: 10vh 10vh 3vh 10vh;

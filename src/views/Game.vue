@@ -45,7 +45,7 @@ export default defineComponent({
     const location = ref({} as GuessDto);
     const correct = ref(true);
     const round = ref(0);
-    const maxRounds = ref(10);
+    const maxRounds = ref(5);
     const router = useRouter();
     const userId = ref(localStorage.getItem("userId"));
     const username = ref(localStorage.getItem("username"));
