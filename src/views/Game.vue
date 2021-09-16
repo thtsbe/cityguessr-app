@@ -65,7 +65,6 @@ export default defineComponent({
 
     const updateZoom = (minZoom: number, maxZoom: number) => {
       const zoom = Math.floor(Math.random() * (maxZoom - minZoom) + minZoom);
-      console.log("zoom", zoom);
       zoomLevel.value.level = zoom;
       zoomLevel.value.min = zoom - 2 > 0 ? zoom - 2 : 1;
       zoomLevel.value.max = 19;
